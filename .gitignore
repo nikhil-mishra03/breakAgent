@@ -27,6 +27,10 @@ dist/
 .coverage
 .coverage.*
 htmlcov/
+docs/
+fixtures/
+breakagent-summary.md
+
 
 # Tooling caches
 .tox/

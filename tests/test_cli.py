@@ -185,3 +185,51 @@ def test_cli_fail_on_thresholds_are_deterministic(tmp_path):
     assert high.exit_code == 2
     assert medium.exit_code == 2
     assert info.exit_code == 2
+
+
+def test_cli_md_summary_generates_markdown_without_affecting_exit(tmp_path):
+    runner = CliRunner()
+    json_out = tmp_path / "report.json"
+    html_out = tmp_path / "report.html"
+    md_out = tmp_path / "summary.md"
+
+    base_result = runner.invoke(
+        cli,
+        [
+            "scan",
+            "--spec",
+            "fixtures/openapi.json",
+            "--base-url",
+            "http://localhost:8000",
+            "--json-out",
+            str(json_out),
+            "--html-out",
+            str(html_out),
+            "--fail-on",
+            "high",
+        ],
+    )
+
+    with_summary = runner.invoke(
+        cli,
+        [
+            "scan",
+            "--spec",
+            "fixtures/openapi.json",
+            "--base-url",
+            "http://localhost:8000",
+            "--json-out",
+            str(json_out),
+            "--html-out",
+            str(html_out),
+            "--md-summary",
+            "--summary-out",
+            str(md_out),
+            "--fail-on",
+            "high",
+        ],
+    )
+
+    assert with_summary.exit_code == base_result.exit_code
+    assert md_out.exists()
+    assert "BreakAgent Summary" in md_out.read_text(encoding="utf-8")

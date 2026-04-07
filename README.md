@@ -21,3 +21,21 @@ breakagent scan --spec fixtures/openapi.json --base-url http://localhost:8000
   ```
 
 If `OPENAI_API_KEY` is missing, `--planner llm` falls back to deterministic planning.
+
+## Optional Markdown Summary
+
+Generate an easy-to-read executive markdown summary from the JSON findings:
+
+```bash
+breakagent scan --spec fixtures/openapi.json --base-url http://localhost:8000 --md-summary
+```
+
+Optional overrides (not required):
+
+```bash
+--summary-model gpt-5-mini
+--summary-max-tokens 1200
+--summary-cost-cap-usd 0.03
+```
+
+If not provided, internal defaults are used.

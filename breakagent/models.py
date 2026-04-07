@@ -62,6 +62,10 @@ class ScanConfig(BaseModel):
     previous_report: str | None = None
     planner: str = "rule"
     llm_model: str = "gpt-5-mini"
+    md_summary_enabled: bool = False
+    summary_model: str = "gpt-5-mini"
+    summary_max_tokens: int = 1200
+    summary_cost_cap_usd: float = 0.03
     fail_on: Severity = Severity.MEDIUM
     budgets: BudgetConfig = Field(default_factory=BudgetConfig)
 
